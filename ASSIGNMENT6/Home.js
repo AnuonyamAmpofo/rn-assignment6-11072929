@@ -2,21 +2,25 @@ import React, { useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { TenorSans_400Regular, useFonts } from '@expo-google-fonts/tenor-sans';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Home() {
+
     const [fontsLoaded] = useFonts({
         TenorSans_400Regular,
     });
 
+    const navigation = useNavigation();
+
     const [products, setProducts] = useState([
-        { id: 1, name: 'Office Wear', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress1.png') },
+        { id: 1, name: 'Office Wear', subName: 'Office Wear for your office', price: '$120', image: require('./assets/dress1.png') },
         { id: 2, name: 'Black', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress2.png') },
         { id: 3, name: 'Church Wear', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress3.png') },
         { id: 4, name: 'Lamerei', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress4.png') },
         { id: 5, name: '21WN', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress5.png') },
         { id: 6, name: 'Lopo', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress6.png') },
         { id: 7, name: '21WN', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress7.png') },
-        { id: 8, name: '21WN', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress3.png') },
+        { id: 8, name: 'lame', subName: 'reversible angora cardigan', price: '$120', image: require('./assets/dress3.png') },
     ]);
 
     const addToCart = async (product) => {
@@ -32,18 +36,21 @@ export default function Home() {
     };
 
     return (
-        // <SafeAreaView style={styles.safeArea}>
-        // <ScrollView>
+        <SafeAreaView style={styles.safeArea}>
+        
             <View style={styles.container}>
                 <View style={styles.topHead}>
                     <Image source={require('./assets/align-left.png')} style={styles.menu} />
                     <Image source={require('./assets/Logo.png')} style={styles.logo} />
                     <View style={styles.sopt}>
                         <Image source={require('./assets/search.png')} style={styles.search} />
-                        <Image source={require('./assets/shopping-bag.png')} style={styles.bag} />
+                        <TouchableOpacity onPress={()=>navigation.navigate('Cart')}>
+                            <Image source={require('./assets/shopping-bag.png')} style={styles.bag} />
+                        
+                        </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.story}>
+                            <View style={styles.story}>
                     <Text style={styles.stotext}>OUR STORY</Text>
                     <View style={styles.lisfil}>
                         <TouchableOpacity style={styles.listcont}>
@@ -58,6 +65,7 @@ export default function Home() {
                 <FlatList
                     data={products}
                     keyExtractor={(item) => item.id.toString()}
+                    
                     renderItem={({ item }) => (
                         <View style={styles.productCont}>
                             <View style={styles.product}>
@@ -78,7 +86,9 @@ export default function Home() {
                     numColumns={2}
                     contentContainerStyle={styles.contentContainer}
                 />
+                
             </View>
+            </SafeAreaView>
             // {/* </ScrollView> */}
     );
 }
@@ -86,6 +96,7 @@ export default function Home() {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        paddingTop: 50
     },
     container: {
         paddingHorizontal: 15,
@@ -209,7 +220,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     contentContainer: {
-        paddingBottom: 230,
+        paddingBottom: 120,
     },
     productCont: {
         flex: 1,
